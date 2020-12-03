@@ -23,6 +23,10 @@ public class BusRouteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus_route);
 
+        /* getSupportFragmentManager().beginTransaction().add(frameContainer)
+        fragmentTransaction.replace(container, fragment, fragmentTag)
+        fragmentTransaction.addToBackStack(fragmentTag)
+        fragmentTransaction.commitAllowingStateLoss()*/
         ViewModelFactory viewModelFactory = new ViewModelFactory();
         BusInfoViewModel busInfoViewModel = ViewModelProviders.of(
                 this,viewModelFactory).get(BusInfoViewModel.class);

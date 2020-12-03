@@ -7,6 +7,7 @@ class AppConstants {
         const val ROOT_ROUTE_TIME_OBJ = "routeTimings"
         const val FIRST_TIME_INSERTION_ROUTE_INFO_TBL = "FIRST_TIME_INSERTION_ROUTE_INFO_TBL"
         const val FIRST_TIME_INSERTION_BUS_TIMING_TBL = "FIRST_TIME_INSERTION_BUS_TIMING_TBL"
+        const val BUS_ROUTE_FRAG_TAG = "BUS_ROUTE_FRAG_TAG"
 
     }
 }

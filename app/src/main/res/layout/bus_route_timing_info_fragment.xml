@@ -21,5 +21,17 @@
         android:layout_marginTop="20dp"
         android:id="@+id/rvBusRouteTimings"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/tvNoDataFound"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        ></TextView>
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
