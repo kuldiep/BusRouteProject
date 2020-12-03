@@ -4,27 +4,38 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import com.android_poc.busroutinfoapp.database.models.BusTimeEntity
 import com.android_poc.busroutinfoapp.database.models.RouteInfoItem
+import com.android_poc.busroutinfoapp.utils.AppConstants
+import com.android_poc.busroutinfoapp.utils.AppSharedPrefRepository
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
 
 public class DataManager(application: Application) {
-    private lateinit var busRoutDbObj: BusRoutInfoDBHelper
+    private var busRoutDbObj: BusRoutInfoDBHelper
 
     init {
         busRoutDbObj = BusRoutInfoDBHelper.getInstance(application)
     }
 
-    fun insertRoutInfoItems(routInfoItem: RouteInfoItem) {
+    fun insertRoutInfoItems(routInfoItemList: List<RouteInfoItem>) {
+
         Completable.fromAction {
-            busRoutDbObj.getRouteInfoItemDao().insertRoutInfoItemDao(routInfoItem)
-        }.subscribeOn(Schedulers.io()).subscribe()
+            for (routInfoObj in routInfoItemList)
+                busRoutDbObj.getRouteInfoItemDao().insertRoutInfoItemDao(routInfoObj)
+        }.subscribeOn(Schedulers.io()).doOnComplete {
+            AppSharedPrefRepository.getInstance().setBoolean(
+                AppConstants.FIRST_TIME_INSERTION_ROUTE_INFO_TBL,false)
+        }.subscribe()
 
     }
 
-    fun insertRouteTimings(busTimingPojo: BusTimeEntity){
-       Completable.fromAction {
-           busRoutDbObj.getBusTimingPojoDao().insertBusTimingData(busTimingPojo)
-       }.subscribeOn(Schedulers.io()).subscribe()
+    fun insertRouteTimings(busTimingEntityList: List<BusTimeEntity>) {
+        Completable.fromAction {
+            for (busTimingEntity in busTimingEntityList)
+                busRoutDbObj.getBusTimingPojoDao().insertBusTimingData(busTimingEntity)
+        }.subscribeOn(Schedulers.io()).doOnComplete {
+            AppSharedPrefRepository.getInstance().setBoolean(
+                AppConstants.FIRST_TIME_INSERTION_BUS_TIMING_TBL,false)
+        }.subscribe()
     }
 
     fun getBusRouteInfoItemsFromDB() : LiveData<List<RouteInfoItem>>{

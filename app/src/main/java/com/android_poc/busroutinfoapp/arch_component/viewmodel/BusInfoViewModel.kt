@@ -11,7 +11,7 @@ import com.android_poc.busroutinfoapp.utils.AppSharedPrefRepository
 
 public class BusInfoViewModel: BaseViewModel() {
 
-    fun fillRouteInfoItemTable(){
+    /*fun fillRouteInfoItemTable(){
         Log.d("LOG","value of flag for RouteInfoTable is = "+ AppSharedPrefRepository.
         getInstance().getBoolean(AppConstants.FIRST_TIME_INSERTION_ROUTE_INFO_TBL,true))
         if(AppSharedPrefRepository.getInstance().getBoolean(
@@ -31,7 +31,7 @@ public class BusInfoViewModel: BaseViewModel() {
                 AppConstants.FIRST_TIME_INSERTION_BUS_TIMING_TBL,false)
         }
     }
-
+*/
     fun getRouteInfoItemsFromRepo():LiveData<List<RouteInfoItem>>{
         return getBusRouteInfoRepository().getRouteInfoItemDataFromDB()
     }
