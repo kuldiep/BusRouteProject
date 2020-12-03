@@ -9,7 +9,7 @@ import com.android_poc.busroutinfoapp.database.models.BusTimeEntity
 
 class BusRouteTimingInfoViewModel : BaseViewModel() {
 
-    fun getAllBusRouteTimingByRouteId(routeId:String):LiveData<List<BusTimeEntity>>{
+   /* fun getAllBusRouteTimingByRouteId(routeId:String):LiveData<List<BusTimeEntity>>{
         return getBusRouteInfoRepository().getBusTimingFromRouteId(routeId)
-    }
+    }*/
 }

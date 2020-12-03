@@ -1,6 +1,7 @@
 package com.android_poc.busroutinfoapp.ui
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import com.android_poc.busroutinfoapp.database.models.RouteInfoItem
 import com.android_poc.busroutinfoapp.databinding.BusRouteTimingInfoFragmentBinding
 import com.android_poc.busroutinfoapp.ui.recyclerview.BusRouteRecyclerViewAdapter
 import com.android_poc.busroutinfoapp.ui.recyclerview.BusRouteTimingRecyclerAdapter
+import com.android_poc.busroutinfoapp.utils.AppConstants
 import com.android_poc.busroutinfoapp.utils.StartSnapHelper
 
 class BusRouteTimingInfoFrag : Fragment() {
@@ -26,6 +28,9 @@ class BusRouteTimingInfoFrag : Fragment() {
     var viewModelFactory = ViewModelFactory()
     private var busRouteInfoItemList: List<RouteInfoItem>? = null
     lateinit var busRouteTimingRecyclerAdapter: BusRouteTimingRecyclerAdapter
+    private var myCountDownTimer:MyCountDownTimer?=null
+    private var globPosition = 0
+    private var currentTimeInMilis = System.currentTimeMillis().toInt()
 
     companion object {
         fun newInstance() = BusRouteTimingInfoFrag()
@@ -62,7 +67,20 @@ class BusRouteTimingInfoFrag : Fragment() {
         viewModel.getRouteInfoItemsFromRepo().observe(viewLifecycleOwner, {
             busRouteInfoItemList = it
             busRouteRecyclerViewAdapter.setBusRouteList(it)
+            getBusRouteTimingFromDb(globPosition)
+            startCountDownTimer()
         })
+
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+    }
+
+    fun startCountDownTimer(){
+        myCountDownTimer = MyCountDownTimer().start() as MyCountDownTimer?
     }
 
     inner class MyRecyclerViewOnScrollListener : RecyclerView.OnScrollListener() {
@@ -73,20 +91,8 @@ class BusRouteTimingInfoFrag : Fragment() {
                 val lm = recyclerView.layoutManager as LinearLayoutManager
                 val position = lm.findFirstCompletelyVisibleItemPosition()
                 if (position != -1) {
-                    viewModel.getBusTimingOnGivenRoute(busRouteInfoItemList?.get(position)?.id!!)
-                        .observe(viewLifecycleOwner,
-                            Observer {
-                                Log.d("LOG", "busEntity is = " + it)
-                                if(it!=null && it.isNotEmpty()) {
-                                    busRouteTimingRecyclerAdapter.setBusTimeEntityList(it)
-                                    binding?.tvNoDataFound?.visibility = View.GONE
-                                }else{
-                                    busRouteTimingRecyclerAdapter.setBusTimeEntityList(it)
-                                   
-                                    binding?.tvNoDataFound?.visibility = View.VISIBLE
-                                    binding?.tvNoDataFound?.text = "No Data Found"
-                                }
-                            })
+                    globPosition = position
+                    getBusRouteTimingFromDb(position)
                 }
                 Log.d("LOG", "position of visible item is = " + position)
             }
@@ -96,6 +102,40 @@ class BusRouteTimingInfoFrag : Fragment() {
             super.onScrolled(recyclerView, dx, dy)
 
         }
+    }
+    fun getBusRouteTimingFromDb(pos:Int){
+        if(busRouteInfoItemList?.size!! > 0) {
+            viewModel.getBusTimingOnGivenRoute(busRouteInfoItemList?.get(pos)?.id!!,0)
+                .observe(viewLifecycleOwner,
+                    Observer {
+                        Log.d("LOG", "busEntity is = " + it)
+                        busRouteTimingRecyclerAdapter.setBusTimeEntityList(it)
+                        if (it != null && it.isNotEmpty()) {
+                            binding?.tvNoDataFound?.visibility = View.GONE
+                        } else {
+                            binding?.tvNoDataFound?.visibility = View.VISIBLE
+                            binding?.tvNoDataFound?.text = "No Data Found"
+                        }
+                    })
+        }
+    }
+    inner class MyCountDownTimer : CountDownTimer(
+        AppConstants.COUNT_DOWN_TIME,AppConstants.COUNT_DOWN_INTERVAL){
+        override fun onTick(p0: Long) {
+
+        }
+
+        override fun onFinish() {
+            getBusRouteTimingFromDb(globPosition)
+            currentTimeInMilis = System.currentTimeMillis().toInt()
+           startCountDownTimer()
+        }
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        myCountDownTimer?.cancel()
     }
 
 

@@ -40,8 +40,8 @@ public class BusInfoViewModel: BaseViewModel() {
         return getBusRouteInfoRepository().getAllBusTimingPojosFromDB()
     }
 
-    fun getBusTimingOnGivenRoute(routeId:String):LiveData<List<BusTimeEntity>>{
-        return getBusRouteInfoRepository().getBusTimingFromRouteId(routeId)
+    fun getBusTimingOnGivenRoute(routeId:String,currentTime:Int):LiveData<List<BusTimeEntity>>{
+        return getBusRouteInfoRepository().getBusTimingFromRouteId(routeId,currentTime)
     }
 
 }

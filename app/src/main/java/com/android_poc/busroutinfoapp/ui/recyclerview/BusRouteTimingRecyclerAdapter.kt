@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android_poc.busroutinfoapp.R
 import com.android_poc.busroutinfoapp.database.models.BusTimeEntity
+import com.android_poc.busroutinfoapp.utils.AppUtils
 
 class BusRouteTimingRecyclerAdapter(var busRouteTimingList: List<BusTimeEntity>, context: Context) :
     RecyclerView.Adapter<BusRouteTimingRecyclerAdapter.BusRouteTimingViewHolder>() {
@@ -20,11 +21,12 @@ class BusRouteTimingRecyclerAdapter(var busRouteTimingList: List<BusTimeEntity>,
     }
 
     override fun onBindViewHolder(holder: BusRouteTimingViewHolder, position: Int) {
-        if (busRouteTimingList.get(position).tripStartTime.isNotEmpty()) {
+        if (busRouteTimingList.get(position).tripStartTime!=null) {
             holder.tvBusStartTime.text =
-                "Start Time" + busRouteTimingList.get(position).tripStartTime
+                "Start Time : " + AppUtils.getTimeAndDate(busRouteTimingList.get(
+                    position).tripStartTime.toLong(),"hh:mm aa")
         }
-        holder.tvBusAvailableSeats.text =
+        holder.tvBusAvailableSeats.text ="Available Seats : "
             busRouteTimingList.get(position).avaiable.toString() + " / " + busRouteTimingList.get(
                 position
             ).totalSeats.toString()

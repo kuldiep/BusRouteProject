@@ -46,8 +46,8 @@ public class DataManager(application: Application) {
         return busRoutDbObj.getBusTimingPojoDao().allBusTimingPojoFromDB
     }
 
-    fun getBusTimingByGivenRouteFromDB(routeId:String):LiveData<List<BusTimeEntity>>{
-        return busRoutDbObj.getBusTimingPojoDao().getAllBussesOnThisRouteId(routeId)
+    fun getBusTimingByGivenRouteFromDB(routeId:String,currentTime:Int):LiveData<List<BusTimeEntity>>{
+        return busRoutDbObj.getBusTimingPojoDao().getAllBussesOnThisRouteId(routeId,currentTime)
     }
 
 }

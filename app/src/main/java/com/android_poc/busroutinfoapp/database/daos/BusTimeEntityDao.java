@@ -18,7 +18,7 @@ public interface BusTimeEntityDao {
     @Query("SELECT * FROM BusTimeEntity")
     LiveData<List<BusTimeEntity>> getAllBusTimingPojoFromDB();
 
-    @Query("SELECT * FROM BusTimeEntity WHERE keyId = :routeInfoId")
-    LiveData<List<BusTimeEntity>> getAllBussesOnThisRouteId(String routeInfoId);
+    @Query("SELECT * FROM BusTimeEntity WHERE keyId = :routeInfoId AND tripStartTime >= :currentTime")
+    LiveData<List<BusTimeEntity>> getAllBussesOnThisRouteId(String routeInfoId,Integer currentTime);
 
 }

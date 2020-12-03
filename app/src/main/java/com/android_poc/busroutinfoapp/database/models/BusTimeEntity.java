@@ -10,7 +10,7 @@ public class BusTimeEntity {
     @NonNull
     private int id;
     private String keyId;
-    private String tripStartTime;
+    private Integer tripStartTime;
     private int totalSeats;
     private int avaiable;
 
@@ -30,11 +30,11 @@ public class BusTimeEntity {
         this.keyId = keyId;
     }
 
-    public String getTripStartTime() {
+    public Integer getTripStartTime() {
         return tripStartTime;
     }
 
-    public void setTripStartTime(String tripStartTime) {
+    public void setTripStartTime(Integer tripStartTime) {
         this.tripStartTime = tripStartTime;
     }
 

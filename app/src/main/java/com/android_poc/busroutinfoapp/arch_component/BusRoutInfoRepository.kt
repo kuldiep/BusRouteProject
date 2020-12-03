@@ -1,6 +1,8 @@
 package com.android_poc.busroutinfoapp.arch_component
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import com.android_poc.busroutinfoapp.BusRouteAndTimeApplication
 import com.android_poc.busroutinfoapp.database.DataManager
@@ -67,6 +69,7 @@ public class BusRoutInfoRepository private constructor(val application: Applicat
         return map
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun insertBusRouteTimingIntoTable(map: Map<String, List<BusTimingPojo>>) {
         val busTimingEntityList = arrayListOf<BusTimeEntity>()
         for ((key, busTimingPojoList) in map) {
@@ -76,7 +79,7 @@ public class BusRoutInfoRepository private constructor(val application: Applicat
                         keyId = key
                         avaiable = busTimingPojo.avaiable
                         totalSeats = busTimingPojo.totalSeats
-                        tripStartTime = busTimingPojo.tripStartTime
+                        tripStartTime = AppUtils.getMiliSecondsFromString(busTimingPojo.tripStartTime)
                         busTimingEntityList.add(this)
                     }
 
@@ -94,8 +97,8 @@ public class BusRoutInfoRepository private constructor(val application: Applicat
         return dataManager.getAllBusTimingPojosFromDB()
     }
 
-    fun getBusTimingFromRouteId(routeId: String): LiveData<List<BusTimeEntity>> {
-        return dataManager.getBusTimingByGivenRouteFromDB(routeId)
+    fun getBusTimingFromRouteId(routeId: String,currentTime:Int): LiveData<List<BusTimeEntity>> {
+        return dataManager.getBusTimingByGivenRouteFromDB(routeId,currentTime)
     }
 
 }
