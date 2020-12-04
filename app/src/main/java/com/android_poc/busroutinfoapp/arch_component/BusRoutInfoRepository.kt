@@ -16,7 +16,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
 
-public class BusRoutInfoRepository private constructor(val application: Application) {
+ class BusRoutInfoRepository private constructor(val application: Application) {
     private var dataManager: DataManager
 
     init {
@@ -69,7 +69,7 @@ public class BusRoutInfoRepository private constructor(val application: Applicat
         return map
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     fun insertBusRouteTimingIntoTable(map: Map<String, List<BusTimingPojo>>) {
         val busTimingEntityList = arrayListOf<BusTimeEntity>()
         for ((key, busTimingPojoList) in map) {

@@ -4,6 +4,8 @@ import com.android_poc.busroutinfoapp.BusRouteAndTimeApplication
 import org.json.JSONObject
 import java.io.InputStream
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 object AppUtils {
@@ -23,6 +25,7 @@ object AppUtils {
 
 
     fun getMiliSecondsFromString(timeInString: String): Int {
+
       val listOfToken= timeInString.split(":")
         val minutesToMs: Int = listOfToken.get(1).toInt() * 60000
         val hoursToMs: Int = listOfToken.get(0).toInt() * 3600000

@@ -26,7 +26,7 @@ class BusRouteTimingRecyclerAdapter(var busRouteTimingList: List<BusTimeEntity>,
                 "Start Time : " + AppUtils.getTimeAndDate(busRouteTimingList.get(
                     position).tripStartTime.toLong(),"hh:mm aa")
         }
-        holder.tvBusAvailableSeats.text ="Available Seats : "
+        holder.tvBusAvailableSeats.text ="Avl : "
             busRouteTimingList.get(position).avaiable.toString() + " / " + busRouteTimingList.get(
                 position
             ).totalSeats.toString()
